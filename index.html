@@ -6,8 +6,8 @@
     <style>
     body{
       font-family: 'Roboto Mono', monospace;
-      color: white;
-      background-color: #ff5e5e;
+      color: #ffffff;
+      background-color: #ff5b5b;
       position: fixed;
       top: 0;
       left: 0;
@@ -29,6 +29,7 @@
     #clock{
       font-size: 2em;
       padding: 1%;
+      color: #ffffff;
     }
     #pomo{
       height: 100%;
@@ -40,6 +41,20 @@
       position: fixed;
       top: 20%;
     }
+    .selected{
+      color: #ffffff;
+    }
+    .notselected{
+      color: #842d2d;
+    }
+    #buttons{
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    }
+    #buttons a{
+      text-decoration: none;
+    }
     </style>
     <title>Pomobotto</title>
   </head>
@@ -49,10 +64,39 @@
     </div>
     <div id="pomo" class="center">
     </div>
+    <div id="buttons">
+      <a id="testmode" class="selected" href="#">Test Mode</a>
+      <a id="realmode" class="notselected" href="#">Real Time</a>
+    </div>
   </body>
   <script>
   window.onload=runClock();
+  var testmode = true;
   window.onload=workTime();
+  $("#realmode").on("click", function() {
+    if (testmode == true){
+      $("#realmode").removeClass("notselected");
+      $("#realmode").addClass("selected");
+      $("#testmode").removeClass("selected");
+      $("#testmode").addClass("notselected");
+      testmode = false;
+    }
+    else{
+      return;
+    }
+  });
+  $("#testmode").on("click", function() {
+    if (testmode == false){
+      $("#testmode").addClass("selected");
+      $("#testmode").removeClass("notselected");
+      $("#realmode").removeClass("selected");
+      $("#realmode").addClass("notselected");
+      testmode = true;
+    }
+    else{
+      return;
+    }
+  });
   function runClock() {
   var today = new Date();
   var h = today.getHours();
@@ -76,22 +120,29 @@
   var workClock;
   var restClock;
   function workTime(){
+    console.log("set work time");
     clearInterval(restClock);
     window.alert("Time to work 25 minutes");
-    //test interval
-    workClock = setTimeout(restTime, 2000);
-    // real interval
-    // workClock = setTimeout(restTime, 1500000);
+    if (testmode == true){
+      workClock = setTimeout(restTime, 5000);
+    }
+    else {
+      workClock = setTimeout(restTime, 1500000);
+    }
     $("#pomo").css('background-image', 'url("pomo.PNG")');
+    console.log(testmode);
   }
   function restTime(){
     clearInterval(workClock);
     window.alert("Rest 5 minutes");
-    //test interval
-    restClock = setTimeout(workTime, 2000);
-    //real interval
-    // restClock = setTimeout(workTime, 300000);
+    if (testmode == true){
+      restClock = setTimeout(workTime, 5000);
+    }
+    else{
+      restClock = setTimeout(workTime, 300000);
+    }
     $("#pomo").css('background-image', 'url("pomolids.PNG")');
   }
+
   </script>
 </html>
