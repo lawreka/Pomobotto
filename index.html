@@ -24,11 +24,11 @@
       font-size: 2.5em;
       font-weight: bold;
       padding: 20px;
-      margin-top: 30%;
+      margin-top: 15%;
     }
     #clock{
       font-size: 2em;
-      padding: 20px;
+      padding: 1%;
     }
     #pomo{
       height: 100%;
@@ -37,11 +37,13 @@
       background-size: contain;
       background-position: top;
       background-repeat: no-repeat;
+      position: fixed;
+      top: 20%;
     }
     </style>
     <title>Pomobotto</title>
   </head>
-  <body onload="runClock()">
+  <body>
     <div id="text" class="center">Pomobotto</div>
     <div id="clock" class="center">
     </div>
@@ -49,6 +51,8 @@
     </div>
   </body>
   <script>
+  window.onload=runClock();
+  window.onload=workTime();
   function runClock() {
   var today = new Date();
   var h = today.getHours();
@@ -68,6 +72,26 @@
   else{
     return i;
     }
+  }
+  var workClock;
+  var restClock;
+  function workTime(){
+    clearInterval(restClock);
+    window.alert("Time to work 25 minutes");
+    //test interval
+    workClock = setTimeout(restTime, 2000);
+    // real interval
+    // workClock = setTimeout(restTime, 1500000);
+    $("#pomo").css('background-image', 'url("pomo.PNG")');
+  }
+  function restTime(){
+    clearInterval(workClock);
+    window.alert("Rest 5 minutes");
+    //test interval
+    restClock = setTimeout(workTime, 2000);
+    //real interval
+    // restClock = setTimeout(workTime, 300000);
+    $("#pomo").css('background-image', 'url("pomolids.PNG")');
   }
   </script>
 </html>
