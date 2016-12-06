@@ -67,37 +67,21 @@
     <div id="pomo" class="center">
     </div>
     <div id="buttons">
-      <a id="testmode" class="selected" href="#">Test Mode</a>
-      <a id="realmode" class="notselected" href="#">Real Time</a>
+      <a id="start" class="notselected" href="#">Start</a>
+      <a id="stop" class="selected" href="#">Stop</a>
     </div>
   </body>
   <script>
   window.onload=runClock();
-  var testmode = true;
-  window.onload=workTime();
-  $("#realmode").on("click", function() {
-    if (testmode == true){
-      $("#realmode").removeClass("notselected");
-      $("#realmode").addClass("selected");
-      $("#testmode").removeClass("selected");
-      $("#testmode").addClass("notselected");
-      testmode = false;
-    }
-    else{
-      return;
-    }
+  $("#start").on("click", function(){
+    workTime();
+    $(this).removeClass("notselected").addClass("selected");
+    $("#stop").removeClass("selected").addClass("notselected");
   });
-  $("#testmode").on("click", function() {
-    if (testmode == false){
-      $("#testmode").addClass("selected");
-      $("#testmode").removeClass("notselected");
-      $("#realmode").removeClass("selected");
-      $("#realmode").addClass("notselected");
-      testmode = true;
-    }
-    else{
-      return;
-    }
+  $("#stop").on("click", function(){
+    stop();
+    $(this).removeClass("notselected").addClass("selected");
+    $("#start").removeClass("selected").addClass("notselected");
   });
   function runClock() {
   var today = new Date();
@@ -119,32 +103,24 @@
     return i;
     }
   }
+
   var workClock;
   var restClock;
   function workTime(){
-    console.log("set work time");
     clearInterval(restClock);
     window.alert("Time to work 25 minutes");
-    if (testmode == true){
-      workClock = setTimeout(restTime, 5000);
-    }
-    else {
-      workClock = setTimeout(restTime, 1500000);
-    }
+    workClock = setTimeout(restTime, 1500000);
     $("#pomo").css('background-image', 'url("pomo.PNG")');
-    console.log(testmode);
   }
   function restTime(){
     clearInterval(workClock);
     window.alert("Rest 5 minutes");
-    if (testmode == true){
-      restClock = setTimeout(workTime, 5000);
-    }
-    else{
-      restClock = setTimeout(workTime, 300000);
-    }
+    restClock = setTimeout(workTime, 300000);
     $("#pomo").css('background-image', 'url("pomolids.PNG")');
   }
-
+  function stop(){
+    clearInterval(workClock);
+    clearInterval(restClock);
+  }
   </script>
 </html>
